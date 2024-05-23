@@ -1,0 +1,309 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;1,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,600;1,600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #fff;
+    color: #222;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+}
+
+.wrapper {
+    width: 1280px;
+    margin: 50px auto;
+}
+
+header {
+    position: relative
+}
+
+header .logo {
+    font-weight: 600;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+header ul.nav {
+    float: right;
+    list-style: none;
+}
+
+header ul.nav li {
+    display: inline;
+    margin-left: 25px;
+    cursor: pointer;
+    transition: opacity 500ms ease;
+}
+
+header ul.nav li:hover {
+    opacity: 0.5;
+}
+
+header .cart {
+    float: right;
+    cursor: pointer;
+    transition: color, transform 500ms ease;
+}
+
+header .cart:hover, header .cart.active {
+    color: #dc3d3d;
+    transform: scale(1.5);
+}
+
+header .cart-panel {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    width: 450px;
+    background: #fafafa;
+    -webkit-box-shadow: -30px 19px 107px -14px rgba(96, 96, 96, 1);
+    -moz-box-shadow: -30px 19px 107px -14px rgba(96, 96, 96, 1);
+    box-shadow: -30px 19px 107px -14px rgba(96, 96, 96, 1);
+    z-index: 1000;
+    padding: 20px 20px 0;
+}
+
+header .cart-panel .item {
+    width: 100%;
+    float: left;
+    margin-bottom: 20px;
+}
+
+header .cart-panel .empty-cart {
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
+header .cart-panel .item img {
+    width: 70px;
+    float: left;
+    margin-right: 20px;
+    border-radius: 5px;
+}
+
+header .cart-panel .item h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+header .cart-panel .item p {
+    color: #797979;
+}
+
+header .cart-panel .item .delete-product {
+    color: #ca5252;
+    float: right;
+    position: relative;
+    top: -25px;
+    cursor: pointer;
+    transition: color, transform 500ms ease;
+}
+
+header .cart-panel .item .delete-product:hover {
+    color: #dc3d3d;
+    transform: scale(1.5);
+}
+
+header .cart-panel .total {
+    float: left;
+    width: 100%;
+    font-weight: 600;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+header .presentation {
+    margin: 50px 0;
+    width: 100%;
+    background: #bcbcbc url("img/apartments.jpg") no-repeat center center;
+    height: 500px;
+    background-size: cover;
+    background-blend-mode: multiply;
+}
+
+header .presentation:after {
+    content: "Вещи которые вам понравятся";
+    position: absolute;
+    top: 240px;
+    left: 790px;
+    width: 400px;
+    font-size: 40px;
+    font-weight: 600;
+    color: #fff;
+}
+
+header .presentation:before {
+    content: "Стильно, модно, молодежно";
+    position: absolute;
+    top: 340px;
+    left: 910px;
+    width: 300px;
+    font-size: 15px;
+    font-weight: 300;
+    color: #fff;
+}
+
+.categories div {
+    display: inline-block;
+    background: #f2f2f2;
+    border-radius: 50px;
+    padding: 10px 20px;
+    margin-bottom: 25px;
+    margin-right: 15px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 500ms ease;
+}
+
+.categories div:hover {
+    border-color: silver;
+    transform: scale(1.1);
+}
+
+.one-item {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(55, 55, 55, 0.8);
+    z-index: 2222;
+    overflow: auto;
+}
+
+.one-item > div {
+    width: 600px;
+    position: relative;
+    margin: 10% auto;
+    padding: 40px 30px;
+    background: #fff;
+    border-radius: 9px;
+}
+
+main {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+main .item {
+    width: 30%;
+    margin-bottom: 50px;
+    background: #f5f5f5;
+    overflow: hidden;
+    position: relative;
+    padding-bottom: 20px;
+}
+
+main .item img,
+.one-item img {
+    width: 100%;
+    border-radius: 10px 10px 0 0;
+    overflow: hidden;
+    transition: transform 500ms ease;
+    cursor: pointer;
+}
+
+main .item img:hover,
+.one-item img:hover {
+    transform: scale(1.05);
+}
+
+main h2, main p, main b,
+.one-item h2, .one-item p, .one-item b {
+    margin: 10px 20px;
+    color: #333;
+}
+
+main b, .one-item b {
+    color: #5fa36a
+}
+
+main .add-to-cart,
+.one-item .add-to-cart {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    background: #ca5252;
+    width: 35px;
+    height: 35px;
+    text-align: center;
+    line-height: 35px;
+    color: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: 600;
+    transition: transform 500ms ease;
+}
+
+main .add-to-cart:hover,
+.one-item .add-to-cart:hover {
+    transform: scale(1.5);
+}
+
+footer {
+    text-align: center;
+    margin-top: 100px;
+
+}
+
+.about h2, .contacts h2 {
+    text-align: center;
+    font-weight: 600;
+    font-size: 25px;
+}
+
+.about h3, .contacts h3 {
+    margin-top: 30px;
+    text-align: center;
+    font-weight: 300;
+    font-size: 15px;
+}
+
+.login_password_group {
+    display: flex;
+    align-items: center;
+}
+
+.login_label {
+    horiz-align: left;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.password_label {
+    horiz-align: left;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.err_label > b {
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 50px;
+}
+
+.button_group {
+    padding-top: 10px;
+}
+
+.button_group > Button {
+    padding: 10px;
+    width: 100px;
+}
+
+.personal-info > h2 {
+    padding-bottom: 10px;
+}
+
+.personal-info > Button {
+    margin-top: 10px;
+    padding: 10px;
+    width: 100px;
+}
