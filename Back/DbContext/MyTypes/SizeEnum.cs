@@ -1,4 +1,4 @@
-﻿namespace Back.DbContext;
+﻿namespace Back.DbContext.MyTypes;
 
 // Перечисляемый тип данных для использования в определении размеров заказов и ячеек
 public enum SizeEnum

@@ -26,13 +26,13 @@ public class PostomatController : ControllerBase
                 DbFunctions.Log(e.Message);
                 return Ok(e.Message);
             }
-            
+
             return Ok("");
         }
 
         return BadRequest("incorrect_headers");
     }
-    
+
     [HttpGet]
     public IActionResult DeliverOrder()
     {
@@ -46,11 +46,12 @@ public class PostomatController : ControllerBase
             userId ??= "";
             cookies.TryGetValue("password_hash", out var passwordHash);
             passwordHash ??= "";
-            
+
             if (userId == "" || passwordHash == "") return Ok("Incorrect user");
             try
             {
-                if (!DbFunctions.CheckUserPasswordHash(Convert.ToInt32(userId), passwordHash)) return Ok("Incorrect user");
+                if (!DbFunctions.CheckUserPasswordHash(Convert.ToInt32(userId), passwordHash))
+                    return Ok("Incorrect user");
             }
             catch (Exception e)
             {
@@ -59,27 +60,28 @@ public class PostomatController : ControllerBase
             }
 
             var intSize = Convert.ToInt32(size.ToString());
-            if (intSize < Convert.ToInt32(SizeEnum.Small) || intSize > Convert.ToInt32(SizeEnum.Large)) return Ok("Incorrect size");
+            if (intSize < Convert.ToInt32(SizeEnum.Small) || intSize > Convert.ToInt32(SizeEnum.Large))
+                return Ok("Incorrect size");
 
             if (!secretCode.ToString().All(char.IsDigit))
                 return Ok("Incorrect secret code");
 
             try
             {
-                DbFunctions.DeliverOrder(new OrderStruct 
-                    {
-                        secret_code = secretCode.ToString(), 
-                        description = description.ToString(), 
-                        size = intSize, 
-                        delivery_person_id = Convert.ToInt32(userId)
-                    });
+                DbFunctions.DeliverOrder(new OrderStruct
+                {
+                    secret_code = secretCode.ToString(),
+                    description = description.ToString(),
+                    size = intSize,
+                    delivery_person_id = Convert.ToInt32(userId)
+                });
             }
             catch (Exception e)
             {
                 DbFunctions.Log(e.Message);
                 return Ok(e.Message);
             }
-            
+
             return Ok("");
         }
 
@@ -99,12 +101,13 @@ public class PostomatController : ControllerBase
             userId ??= "";
             cookies.TryGetValue("password_hash", out var passwordHash);
             passwordHash ??= "";
-            
+
             if (userId == "" || passwordHash == "") return Ok("Incorrect user");
             try
             {
-                if (!DbFunctions.CheckUserPasswordHash(Convert.ToInt32(userId), passwordHash)) return Ok("Incorrect user");
-            
+                if (!DbFunctions.CheckUserPasswordHash(Convert.ToInt32(userId), passwordHash))
+                    return Ok("Incorrect user");
+
                 if (DbFunctions.GetUserRole(Convert.ToInt32(userId)) < 1) return Ok("Incorrect role");
             }
             catch (Exception e)
@@ -112,11 +115,11 @@ public class PostomatController : ControllerBase
                 DbFunctions.Log(e.Message);
                 return Ok(e.Message);
             }
-            
+
             if (login.ToString().Length < 6
                 || login.ToString().Any(char.IsPunctuation))
                 return Ok("Incorrect login or password");
-            
+
             if (password.ToString().Length < 8
                 || !password.ToString().Any(char.IsLetter)
                 || !password.ToString().Any(char.IsDigit)
@@ -137,13 +140,13 @@ public class PostomatController : ControllerBase
                 DbFunctions.Log(e.Message);
                 return Ok(e.Message);
             }
-            
+
             return Ok("");
         }
 
         return BadRequest("incorrect_headers");
     }
-    
+
     [HttpGet]
     public IActionResult LoginUser()
     {
@@ -154,7 +157,7 @@ public class PostomatController : ControllerBase
             if (login.ToString().Length < 6
                 || login.ToString().Any(char.IsPunctuation))
                 return Ok("Incorrect login or password");
-            
+
             if (password.ToString().Length < 8
                 || !password.ToString().Any(char.IsLetter)
                 || !password.ToString().Any(char.IsDigit)
@@ -167,11 +170,11 @@ public class PostomatController : ControllerBase
             {
                 var u = DbFunctions.TryLoginUser(login.ToString(), password.ToString());
                 if (u is null) return Ok("Failed to login");
-                
+
                 HttpContext.Response.Cookies.Append("user_id", u.id.ToString());
                 HttpContext.Response.Cookies.Append("login", u.login);
                 HttpContext.Response.Cookies.Append("password_hash", u.password_hash);
-                
+
                 return Ok("");
             }
             catch (Exception e)
@@ -182,5 +185,93 @@ public class PostomatController : ControllerBase
         }
 
         return BadRequest("incorrect_headers");
+    }
+
+    [HttpGet]
+    public IActionResult SetEmptyCookies()
+    {
+        var cookies = HttpContext.Request.Cookies;
+        if (!cookies.TryGetValue("user_id", out _))
+            HttpContext.Response.Cookies.Append("user_id", "");
+        if (!cookies.TryGetValue("login", out _))
+            HttpContext.Response.Cookies.Append("login", "");
+        if (!cookies.TryGetValue("password_hash", out _))
+            HttpContext.Response.Cookies.Append("password_hash", "");
+        return Ok("");
+    }
+
+    [HttpGet]
+    public IActionResult GetUser()
+    {
+        var (deletedOrders, clearedCells) = DbFunctions.DeleteExpiredOrders();
+
+        var cookies = HttpContext.Request.Cookies;
+        cookies.TryGetValue("user_id", out var userId);
+        cookies.TryGetValue("login", out var login);
+        cookies.TryGetValue("password_hash", out var passwordHash);
+
+        userId ??= "";
+        login ??= "";
+        passwordHash ??= "";
+
+        if (!(userId != "" && login != "" && passwordHash != ""))
+        {
+            login = "";
+            HttpContext.Response.Cookies.Append("user_id", "");
+            HttpContext.Response.Cookies.Append("login", "");
+            HttpContext.Response.Cookies.Append("password_hash", "");
+        }
+
+        try
+        {
+            if (!DbFunctions.CheckUserPasswordHash(Convert.ToInt32(userId), passwordHash))
+            {
+                login = "";
+                HttpContext.Response.Cookies.Append("user_id", "");
+                HttpContext.Response.Cookies.Append("login", "");
+                HttpContext.Response.Cookies.Append("password_hash", "");
+            }
+        }
+        catch (Exception e)
+        {
+            DbFunctions.Log(e.Message);
+            return Ok(e.Message);
+        }
+
+        var result =
+            "{" +
+            "\"login\":\"" + $"{login}" + "\"" +
+            "}";
+
+        return Ok(result);
+    }
+
+    [HttpGet]
+    public IActionResult CheckAccessLvl()
+    {
+        var cookies = HttpContext.Request.Cookies;
+        cookies.TryGetValue("user_id", out var userId);
+        userId ??= "";
+        cookies.TryGetValue("password_hash", out var passwordHash);
+        passwordHash ??= "";
+        
+        var accessLvl = "-1";
+
+        if (userId == "" || passwordHash == "") return Ok(accessLvl);
+        
+        try
+        {
+            if (!DbFunctions.CheckUserPasswordHash(Convert.ToInt32(userId), passwordHash))
+                return Ok(accessLvl);
+
+            accessLvl = DbFunctions.GetAccessLvl(DbFunctions.GetUserRole(Convert.ToInt32(userId))).ToString();
+        }
+        catch (Exception e)
+        {
+            DbFunctions.Log(e.Message);
+            return Ok(accessLvl);
+        }
+
+        return Ok(accessLvl);
     }
 }

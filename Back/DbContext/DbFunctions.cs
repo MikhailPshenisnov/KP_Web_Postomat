@@ -1,5 +1,6 @@
 ﻿using Back.DbContext.Entities;
 using Back.DbContext.MyTypes;
+using Back.DateChecker;
 
 namespace Back.DbContext;
 
@@ -211,6 +212,19 @@ public static class DbFunctions
 
         return userToGetRole.role_id;
     }
+    
+    public static int GetAccessLvl(int roleId)
+    {
+        using var dbContext = new ApplicationDbContext();
+
+        var userRole = (from role in dbContext.Roles
+            where role.id == roleId
+            select role).FirstOrDefault();
+
+        if (userRole is null) throw new Exception("Incorrect role id");
+
+        return userRole.access_lvl;
+    }
 
     public static void AddUser(string login, string password, int roleId)
     {
@@ -237,5 +251,42 @@ public static class DbFunctions
         if (userToTryLogin is null) throw new Exception("Incorrect user id");
 
         return BCrypt.Net.BCrypt.Verify(password, userToTryLogin.password_hash) ? userToTryLogin : null;
+    }
+    
+    public static (List<int>, List<int>) DeleteExpiredOrders()
+    {
+        var deletedOrders = new List<int>();
+        var clearedCells = new List<int>();
+
+        if (DateChecker.DateChecker.IsReadyForNextCheck())
+        {
+            using var dbContext = new ApplicationDbContext();
+
+            var ordersToDelete = from order in dbContext.Orders select order;
+            foreach (var o in ordersToDelete)
+            {
+                if (DateChecker.DateChecker.IsDateExpired(o.end_date))
+                {
+                    deletedOrders.Add(o.id);
+                    dbContext.Orders.Remove(o);
+                }
+            }
+            dbContext.SaveChanges();
+            
+            var cellsToClear = from cell in dbContext.Cells select cell;
+            foreach (var c in cellsToClear)
+            {
+                if (c.order_id is null) continue;
+                
+                if (deletedOrders.Contains(Convert.ToInt32(c.order_id)))
+                {
+                    clearedCells.Add(c.id);
+                    ClearCellContent(c.id);
+                }
+            }
+            dbContext.SaveChanges();
+        }
+
+        return (deletedOrders, clearedCells);
     }
 }
