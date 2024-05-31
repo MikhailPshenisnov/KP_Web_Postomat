@@ -204,6 +204,7 @@ public class PostomatController : ControllerBase
     public IActionResult GetUser()
     {
         var (deletedOrders, clearedCells) = DbFunctions.DeleteExpiredOrders();
+        var result = "";
 
         var cookies = HttpContext.Request.Cookies;
         cookies.TryGetValue("user_id", out var userId);
@@ -220,6 +221,11 @@ public class PostomatController : ControllerBase
             HttpContext.Response.Cookies.Append("user_id", "");
             HttpContext.Response.Cookies.Append("login", "");
             HttpContext.Response.Cookies.Append("password_hash", "");
+            result =
+                "{" +
+                "\"login\":\"" + $"{login}" + "\"" +
+                "}";
+            return Ok(result);
         }
 
         try
@@ -238,7 +244,7 @@ public class PostomatController : ControllerBase
             return Ok(e.Message);
         }
 
-        var result =
+        result =
             "{" +
             "\"login\":\"" + $"{login}" + "\"" +
             "}";
@@ -257,21 +263,30 @@ public class PostomatController : ControllerBase
         
         var accessLvl = "-1";
 
-        if (userId == "" || passwordHash == "") return Ok(accessLvl);
+        if (userId == "" || passwordHash == "") return  Ok($"{{\"accessLvl\": \"{accessLvl}\"}}");
         
         try
         {
             if (!DbFunctions.CheckUserPasswordHash(Convert.ToInt32(userId), passwordHash))
-                return Ok(accessLvl);
+                return Ok($"{{\"accessLvl\": \"{accessLvl}\"}}");
 
             accessLvl = DbFunctions.GetAccessLvl(DbFunctions.GetUserRole(Convert.ToInt32(userId))).ToString();
         }
         catch (Exception e)
         {
             DbFunctions.Log(e.Message);
-            return Ok(accessLvl);
+            return Ok($"{{\"accessLvl\": \"{accessLvl}\"}}");
         }
 
-        return Ok(accessLvl);
+        return Ok($"{{\"accessLvl\": \"{accessLvl}\"}}");
+    }
+    
+    [HttpGet]
+    public IActionResult LogoutUser()
+    {
+        HttpContext.Response.Cookies.Append("user_id", "");
+        HttpContext.Response.Cookies.Append("login", "");
+        HttpContext.Response.Cookies.Append("password_hash", "");
+        return Ok("");
     }
 }

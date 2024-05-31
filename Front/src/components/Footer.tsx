@@ -1,7 +1,7 @@
 export default function Footer() {
     return (
         <footer>
-            Whatever u need - магазин одежды и не только &copy;
+            Маркетплейс "Nozo" - близко и удобно &copy;
         </footer>
     )
 }

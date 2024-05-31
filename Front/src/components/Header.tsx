@@ -1,76 +1,56 @@
-import {FaCartShopping} from "react-icons/fa6";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {NavLink} from "react-router-dom";
-import {Order} from "./Order.tsx";
-import {CartStringToPokedex} from "../App.tsx";
-import {AuthState} from "../redux/AuthSlice.tsx";
-import {ProductsState} from "../redux/ProductsSlice.tsx";
+import {UserState} from "../redux/UserSlice.tsx";
+import {useAppSelector} from "../redux/Hooks.tsx";
 
-
-const showOrders = (props: CartProps) => {
-    let total = 0;
-    CartStringToPokedex(props.authState.cart, props.productsState.products).map(order => (total += order.price));
-    return (
-        <div>
-            {CartStringToPokedex(props.authState.cart, props.productsState.products).map(order => (
-                <Order key={order.id} product={order} onDelete={props.onDelete}/>
-            ))}
-            <p className='total'>Итого: {new Intl.NumberFormat().format(total)}$</p>
-        </div>
-    )
-}
-
-const showEmptyCart = () => {
-    return (
-        <div className="empty-cart">
-            <h2>Корзина пуста</h2>
-        </div>
-    )
-}
-
-type CartProps = {
-    authState: AuthState,
-    productsState: ProductsState,
-    onDelete: (deleteItemId: number) => void,
+type HeaderProps = {
+    userState: UserState
 };
 
-export default function Header(props: CartProps) {
-    const [isCartOpen, setIsCartOpen] = useState(false);
+export function Header(props: HeaderProps) {
+    const user = useAppSelector((state) => state.user);
+    const [isAdminMode, setIsAdminMode] = useState(false);
+
+    useEffect(() => {
+        if (user.isLoggedIn) {
+            if (user.accessLvl > 0) {
+                setIsAdminMode(true);
+            } else {
+                setIsAdminMode(false);
+            }
+        }
+    }, [user.accessLvl])
 
     return (
         <header>
             <div>
                 <span className="logo">
-                    <NavLink to={"/home"} style={{textDecoration: "none", color: "black"}}>Whatever u need</NavLink>
+                    <NavLink to={"/home"} style={{textDecoration: "none", color: "black"}}>Маркетплейс "Nozo"</NavLink>
                 </span>
                 <ul className="nav">
                     <li>
-                        <NavLink to={"/about"} style={{textDecoration: "none", color: "black"}}>О нас</NavLink>
+                        <NavLink to={"/help"} style={{textDecoration: "none", color: "black"}}>Помощь</NavLink>
                     </li>
                     <li>
-                        <NavLink to={"/contacts"} style={{textDecoration: "none", color: "black"}}>Контакты</NavLink>
+                        <NavLink to={"/deliverylogin"} style={{textDecoration: "none", color: "black"}}>Доставка</NavLink>
                     </li>
                     <li>
-                        <NavLink to={"/login"} style={{textDecoration: "none", color: "black"}}>
-                            {!props.authState.isLoggedIn && (
-                                <>Личный кабинет</>
+                        <NavLink to={"/adminlogin"} style={{textDecoration: "none", color: "black"}}>
+                            {(!props.userState.isLoggedIn && !(props.userState.accessLvl > 0)) && (
+                                <>Панель администратора</>
                             )}
-                            {props.authState.isLoggedIn && (
-                                <>{props.authState.username}</>
+                            {props.userState.isLoggedIn && (
+                                <>{props.userState.login}</>
                             )}
-
                         </NavLink>
                     </li>
                 </ul>
-                <FaCartShopping className={`cart ${isCartOpen && "active"}`}
-                                onClick={() => setIsCartOpen(!isCartOpen)}/>
-                {isCartOpen && (
-                    <div className="cart-panel">
-                        {CartStringToPokedex(props.authState.cart, props.productsState.products).length > 0 ? showOrders(props) : showEmptyCart()}
+                {isAdminMode && (
+                    <div className="admin-mode-warn">
+                        <p>ADMIN MODE</p>
                     </div>
                 )}
             </div>
-            <div className="presentation"/>
         </header>
     )
 }
