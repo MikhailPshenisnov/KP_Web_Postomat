@@ -1,7 +1,8 @@
 import {useEffect, useState} from "react";
 import {NavLink} from "react-router-dom";
-import {UserState} from "../redux/UserSlice.tsx";
-import {useAppSelector} from "../redux/Hooks.tsx";
+import {setAccessLvl, setIsLoggedIn, setLogin, UserState} from "../redux/UserSlice.tsx";
+import {useAppDispatch, useAppSelector} from "../redux/Hooks.tsx";
+import {CheckAccessLvlApi, GetUserApi, LogoutUserApi} from "../api/AppApi.tsx";
 
 type HeaderProps = {
     userState: UserState
@@ -9,7 +10,11 @@ type HeaderProps = {
 
 export function Header(props: HeaderProps) {
     const user = useAppSelector((state) => state.user);
+    const dispatch = useAppDispatch();
     const [isAdminMode, setIsAdminMode] = useState(false);
+    const [tmpUserData, setTmpUserData] = useState<{ login: string }>({login: user.login});
+    const [tmpAccessLvl, setTmpAccessLvl] = useState<{ accessLvl: string }>({accessLvl: user.accessLvl.toString()})
+
 
     useEffect(() => {
         if (user.isLoggedIn) {
@@ -20,6 +25,20 @@ export function Header(props: HeaderProps) {
             }
         }
     }, [user.accessLvl])
+
+    useEffect(() => {
+        dispatch(setLogin(tmpUserData.login));
+        console.log(`"${tmpUserData.login}"`)
+        if (tmpUserData.login != "") {
+            dispatch(setIsLoggedIn(true));
+        } else {
+            dispatch(setIsLoggedIn(false));
+        }
+    }, [tmpUserData]);
+
+    useEffect(() => {
+        dispatch(setAccessLvl(parseInt(tmpAccessLvl.accessLvl)));
+    }, [tmpAccessLvl]);
 
     return (
         <header>
@@ -32,21 +51,34 @@ export function Header(props: HeaderProps) {
                         <NavLink to={"/help"} style={{textDecoration: "none", color: "black"}}>Помощь</NavLink>
                     </li>
                     <li>
-                        <NavLink to={"/deliverylogin"} style={{textDecoration: "none", color: "black"}}>Доставка</NavLink>
+                        <NavLink to={"/deliverylogin"}
+                                 style={{textDecoration: "none", color: "black"}}>Доставка</NavLink>
                     </li>
                     <li>
                         <NavLink to={"/adminlogin"} style={{textDecoration: "none", color: "black"}}>
-                            {(!props.userState.isLoggedIn && !(props.userState.accessLvl > 0)) && (
+                            {(!props.userState.isLoggedIn || !(props.userState.accessLvl > 0)) && (
                                 <>Панель администратора</>
                             )}
-                            {props.userState.isLoggedIn && (
+                            {(props.userState.isLoggedIn && props.userState.accessLvl > 0) && (
                                 <>{props.userState.login}</>
                             )}
                         </NavLink>
                     </li>
                 </ul>
                 {isAdminMode && (
-                    <div className="admin-mode-warn">
+                    <div className="admin-mode-warn" onClick={() => {
+                        LogoutUserApi().then(() => {
+                            GetUserApi()
+                                .then((res) => {
+                                    setTmpUserData(res.data);
+                                });
+                        }).then(() => {
+                            CheckAccessLvlApi().then((res) => {
+                                setTmpAccessLvl(res.data);
+                            });
+                        });
+                        setIsAdminMode(false);
+                    }}>
                         <p>ADMIN MODE</p>
                     </div>
                 )}

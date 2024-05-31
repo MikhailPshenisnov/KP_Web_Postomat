@@ -22,12 +22,12 @@ export function LoginPage(props: LoginPageProps) {
 
     const [flag, setFlag] = useState<boolean>(false);
 
-    const [tmpUserData, setTmpUserData] = useState<{ login: string }>({login: user.login})
-    const [tmpAccessLvl, setTmpAccessLvl] = useState<{ accessLvl: string }>({accessLvl: user.accessLvl.toString()})
+    const [tmpUserData, setTmpUserData] = useState<{ login: string }>({login: user.login});
+    const [tmpAccessLvl, setTmpAccessLvl] = useState<{ accessLvl: string }>({accessLvl: user.accessLvl.toString()});
 
     useEffect(() => {
         if (flag) {
-            navigate(props.path)
+            navigate(props.path);
         }
     }, [flag]);
 
@@ -48,15 +48,12 @@ export function LoginPage(props: LoginPageProps) {
         if (user.isLoggedIn) {
             if (user.accessLvl >= props.accessLvl) {
                 setFlag(true);
-            }
-            else {
+            } else {
                 LogoutUserApi().then(() => {
-                    GetUserApi()
-                        .then((res) => {
-                            setTmpUserData({login: ""});
-                            setTmpUserData(res.data);
-                            // setTimeout(() => setTmpUserData(res.data), 1000);
-                        });
+                    GetUserApi().then((res) => {
+                        setTmpUserData({login: ""});
+                        setTmpUserData(res.data);
+                    });
                 }).then(() => {
                     CheckAccessLvlApi().then((res) => {
                         setTmpAccessLvl({accessLvl: "-2"});
@@ -66,8 +63,7 @@ export function LoginPage(props: LoginPageProps) {
 
                 setFlag(false);
             }
-        }
-        else {
+        } else {
             setFlag(false);
         }
     }, [user.accessLvl]);
@@ -84,23 +80,22 @@ export function LoginPage(props: LoginPageProps) {
             <input className="password-input" type="password" placeholder="Пароль..."
                    onChange={(e) => setPswd(e.target.value)}/>
             <div className="login-btn" onClick={() => {
-                LoginUserApi(lgn, pswd)
-                    .then((res) => {
-                        if (res.data !== "") {
-                            setErrorMessage(res.data);
-                        } else {
-                            setErrorMessage("");
-                            GetUserApi()
-                                .then((res) => {
-                                    setTmpUserData({login: ""});
-                                    setTmpUserData(res.data);
-                                });
-                            CheckAccessLvlApi().then((res) => {
-                                setTmpAccessLvl({accessLvl: "-2"});
-                                setTmpAccessLvl(res.data);
+                LoginUserApi(lgn, pswd).then((res) => {
+                    if (res.data !== "") {
+                        setErrorMessage(res.data);
+                    } else {
+                        setErrorMessage("");
+                        GetUserApi()
+                            .then((res) => {
+                                setTmpUserData({login: ""});
+                                setTmpUserData(res.data);
                             });
-                        }
-                    });
+                        CheckAccessLvlApi().then((res) => {
+                            setTmpAccessLvl({accessLvl: "-2"});
+                            setTmpAccessLvl(res.data);
+                        });
+                    }
+                });
             }}>
                 <h2>Войти</h2>
             </div>

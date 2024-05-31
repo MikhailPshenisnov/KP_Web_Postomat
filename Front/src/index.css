@@ -58,6 +58,7 @@ header .admin-mode-warn {
     box-shadow: -30px 19px 107px -14px rgba(96, 96, 96, 1);
     z-index: 1000;
     padding: 15px;
+    cursor: pointer;
 }
 
 header .admin-mode-warn p {
