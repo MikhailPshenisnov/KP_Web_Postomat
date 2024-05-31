@@ -126,23 +126,26 @@ header .admin-mode-warn p {
     font-size: 28px;
 }
 
-.receive-page, .login-page{
+.receive-page, .login-page, .delivery-page{
     max-width: 1280px;
     padding: 0 15px;
     margin: 0 auto;
 }
 
-.receive-page .err-message, .login-page .err-message{
+.receive-page .err-message, .login-page .err-message, .delivery-page .err-message{
     text-align: center;
     font-weight: 300;
     font-size: 20px;
-    margin-top: 180px;
+    margin-top: 150px;
     height: 1rem;
 }
 
 .receive-page .secret-code-input,
 .login-page .login-input,
-.login-page .password-input {
+.login-page .password-input,
+.delivery-page .secret-code-input,
+.delivery-page .description-input,
+.delivery-page .size-input {
     margin-right: 30%;
     margin-left: 30%;
     margin-top: 20px;
@@ -159,11 +162,14 @@ header .admin-mode-warn p {
 
 .receive-page .secret-code-input:focus,
 .login-page .login-input:focus,
-.login-page .password-input:focus{
+.login-page .password-input:focus,
+.delivery-page .secret-code-input:focus,
+.delivery-page .description-input:focus,
+.delivery-page .size-input:focus {
     border-color: #bc001e;
 }
 
-.receive-order, .login-btn {
+.receive-order, .login-btn, .logout-delivery, .deliver-order {
     margin-right: 30%;
     margin-left: 30%;
     margin-top: 20px;
@@ -175,12 +181,18 @@ header .admin-mode-warn p {
     transition: all 500ms ease;
 }
 
-.receive-order:hover, .login-btn:hover {
+.receive-order:hover,
+.login-btn:hover,
+.logout-delivery:hover,
+.deliver-order:hover {
     border-color: #bc001e;
     transform: scale(1.01);
 }
 
-.receive-order, .login-btn h2 {
+.receive-order h2,
+.login-btn h2,
+.logout-delivery h2,
+.deliver-order h2 {
     text-align: center;
     font-weight: 600;
 }

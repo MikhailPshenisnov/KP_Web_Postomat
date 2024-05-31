@@ -9,6 +9,7 @@ import {CheckAccessLvlApi, GetUserApi, SetEmptyCookiesApi} from "./api/AppApi.ts
 import {StartPage} from "./components/StartPage.tsx";
 import {ReceivePage} from "./components/ReceivePage.tsx";
 import {LoginPage} from "./components/LoginPage.tsx";
+import {DeliveryPage} from "./components/DeliveryPage.tsx";
 
 export function App() {
     const user = useAppSelector((state) => state.user);
@@ -78,10 +79,7 @@ export function App() {
                     }/>
 
                     <Route path="/delivery" element={
-                        <>
-                            {/*<LoginPage/>*/}
-                            {/* КНОПКА ПОЛУЧИТЬ ЗАКАЗ*/}
-                        </>
+                        <DeliveryPage/>
                     }/>
 
                     <Route path="/deliverylogin" element={

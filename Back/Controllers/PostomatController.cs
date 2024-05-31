@@ -59,6 +59,10 @@ public class PostomatController : ControllerBase
                 return Ok(e.Message);
             }
 
+            if (!(secretCode != "" && size != ""))
+                return Ok("Fields required");
+            if (!size.ToString().All(char.IsDigit))
+                return Ok("Incorrect size");
             var intSize = Convert.ToInt32(size.ToString());
             if (intSize < Convert.ToInt32(SizeEnum.Small) || intSize > Convert.ToInt32(SizeEnum.Large))
                 return Ok("Incorrect size");
