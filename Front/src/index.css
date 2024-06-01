@@ -104,19 +104,18 @@ header .admin-mode-warn p {
     top: 200px;
     left: 185px;
     width: 350px;
-    background: #fff;
+    background: #bc001e;
     border-radius: 20px;
     padding: 30px 20px;
     cursor: pointer;
-    border: 3px solid #fff;
-    color:  #bc001e;
+    border: 3px solid #bc001e;
+    color:  #fff;
     transition: all 500ms ease;
 }
 
 .start-banner .go-to-get-order:hover {
-    border-color: #bc001e;
-    background: #bc001e;
-    color:  #fff;
+    background: #fff;
+    color:  #bc001e;
     transform: scale(1.01);
 }
 

@@ -29,7 +29,7 @@ export function DeliveryPage() {
 
     useEffect(() => {
         dispatch(setLogin(tmpUserData.login));
-        console.log(`"${tmpUserData.login}"`)
+        console.log(`"${tmpUserData.login}"`);
         if (tmpUserData.login != "") {
             dispatch(setIsLoggedIn(true));
         } else {
@@ -39,8 +39,8 @@ export function DeliveryPage() {
 
     useEffect(() => {
         dispatch(setAccessLvl(parseInt(tmpAccessLvl.accessLvl)));
-        if (parseInt(tmpAccessLvl.accessLvl) < 0) {
-            navigate("/deliverylogin");
+        if (parseInt(tmpAccessLvl.accessLvl) < 1) {
+            navigate("/adminlogin");
         }
     }, [tmpAccessLvl]);
 

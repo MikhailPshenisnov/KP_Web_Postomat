@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import {setAccessLvl, setIsLoggedIn, setLogin, UserState} from "../redux/UserSlice.tsx";
 import {useAppDispatch, useAppSelector} from "../redux/Hooks.tsx";
 import {CheckAccessLvlApi, GetUserApi, LogoutUserApi} from "../api/AppApi.tsx";
@@ -11,6 +11,7 @@ type HeaderProps = {
 export function Header(props: HeaderProps) {
     const user = useAppSelector((state) => state.user);
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const [isAdminMode, setIsAdminMode] = useState(false);
     const [tmpUserData, setTmpUserData] = useState<{ login: string }>({login: user.login});
     const [tmpAccessLvl, setTmpAccessLvl] = useState<{ accessLvl: string }>({accessLvl: user.accessLvl.toString()})
@@ -78,6 +79,7 @@ export function Header(props: HeaderProps) {
                             });
                         });
                         setIsAdminMode(false);
+                        navigate("/home");
                     }}>
                         <p>ADMIN MODE</p>
                     </div>

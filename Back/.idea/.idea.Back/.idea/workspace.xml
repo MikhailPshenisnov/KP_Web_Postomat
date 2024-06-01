@@ -10,27 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a19a89fd-e5c0-4209-a09e-a5e13e152ba2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/DbContext/Entities/Cell.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DbContext/Entities/Order.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DbContext/Entities/Program_log.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DbContext/Entities/Role.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DbContext/Entities/User.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DbContext/MyTypes/OrderStruct.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DbContext/SizeEnum.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Back/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Back/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ApplicationDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DbContext/ApplicationDbContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Back.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Back.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Controllers/PostomatController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/PostomatController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DbFunctions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DbContext/DbFunctions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Back.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Back.csproj.nuget.dgspec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Back.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Back.csproj.nuget.g.props" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/Back.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/Back.assets.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/Back.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/Back.csproj.AssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.nuget.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.packagespec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/obj/rider.project.model.nuget.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/obj/rider.project.restore.info" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Front/src/components/AdminPage.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Front/src/components/Submenu.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Front/src/components/SubmenuEnum.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DateChecker/LastCheckDate.txt" beforeDir="false" afterPath="$PROJECT_DIR$/DateChecker/LastCheckDate.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Front/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Front/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Front/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Front/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Front/src/components/DeliveryPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Front/src/components/DeliveryPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Front/src/components/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Front/src/components/Header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Front/src/components/PersonalPage.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Front/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/../Front/src/index.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +44,12 @@
     &quot;accountId&quot;: &quot;b9418d9e-9a07-49af-85ba-3bab2d73baa9&quot;
   }
 }</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/0d48ee17574841d0b259d1f4f44ecfb11fd628/0c/0515a715/EntityEntry`1.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/17e38fc279b3572621a1a0737741283fe2bdc3149cd2f3b3fd79191674166ecd/DateTime.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/misha/WebstormProjects/KP_Web_Postomat/Back/Controllers/PostomatController.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
 }</component>
@@ -65,7 +60,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    ".NET Launch Settings Profile.Back: http.executor": "Debug",
+    ".NET Launch Settings Profile.Back: http.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "node.js.detected.package.eslint": "true",
@@ -140,34 +135,16 @@
       <updated>1716496184070</updated>
       <workItem from="1716496185457" duration="3555000" />
       <workItem from="1716507332731" duration="30000" />
-      <workItem from="1716587789872" duration="13247000" />
+      <workItem from="1716587789872" duration="62130000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/DbContext/DbFunctions.cs</url>
-          <line>81</line>
-          <properties documentPath="C:\Users\misha\WebstormProjects\KP_Web_Postomat\Back\DbContext\DbFunctions.cs" containingFunctionPresentation="Method 'AddCellContent'">
-            <startOffsets>
-              <option value="2721" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2762" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
